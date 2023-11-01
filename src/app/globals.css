@@ -18,10 +18,46 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
+  background-color: #000925;
+  font-family: monospace;
+  /* background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
     )
-    rgb(var(--background-start-rgb));
+    rgb(var(--background-start-rgb)); */
+}
+
+main {
+  padding: 1rem;
+}
+
+
+h3 {
+  padding-bottom: 2rem;
+  color: #000105;
+  font-size: 1.8rem;
+}
+
+h1,h2{
+  font-family: monospace;
+}
+
+li {
+  list-style-type: none;
+  cursor: pointer;
+  margin: 9px 0;
+  padding: 16px 8px;
+  color: #000105;
+  border: 1px solid lightgray;
+}
+
+.li-hover:hover {
+  background-color: #d8d8d8;
+  columns: #fff;
+}
+
+.li-selected {
+  color: #fff;
+  background-color: #000925;
 }

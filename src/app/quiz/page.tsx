@@ -15,6 +15,7 @@ export default function Page() {
     const [checked, setChecked] = useState(false);
     const [isAllQuestionsAnswered, setIsAllQuestionAnswered] = useState(false);
     const [finishQuiz, setFinishQuiz] = useState(false);
+    const [result, setResult] = useState<{points: number, correct_answers: number, hard_answers: number, medium_answers: number, easy_answers: number}>();
 
     useEffect(() => {
         getContentData();
@@ -23,12 +24,14 @@ export default function Page() {
     const  getContentData = async ( ) => {
         const content = await getContent();
         setContent(content.data);
+        console.log(content.data);
     }
 
     const handleNextQuestion = () => {
         if (activeQuestion < content.length - 1) {
             setActiveQuestion(activeQuestion + 1);
         }
+        
         console.log(content);
     }
 
@@ -62,7 +65,6 @@ export default function Page() {
 
     const onFinishQuiz = () => {
         calculateResultFunc();
-        // setFinishQuiz(true);
     }
 
     const calculateResultFunc = () => {
@@ -72,7 +74,11 @@ export default function Page() {
                 choice_selected: question.choice_selected
             }
         })
-        calculateResult(answers);
+        calculateResult(answers).then(result => {
+            console.log(result.data);
+            setResult(result.data);
+            setFinishQuiz(true);
+        })
     }
 
     return (
@@ -97,8 +103,12 @@ export default function Page() {
         ) : (
             <div className="w-full bg-white p-10 border rounded-2xl flex flex-col items-center justify-center gap-5">
                 <h1 className="text-xl"> Sua pontuação </h1>
-                <p className="font-bold">Questões acertadas : { '1/3'}</p>
-                <p>Pontuação: {'20 pontos'}</p>
+                <p className="font-bold">Questões acertadas : { result?.correct_answers } / {content.length}</p>
+                <p className="font-bold">Questões dificies acertadas : { result?.hard_answers } </p>
+                <p className="font-bold">Questões Medias acertadas : { result?.medium_answers }  </p>
+                <p className="font-bold">Questões Facil acertadas : { result?.easy_answers }  </p>
+                
+                <p>Pontuação: {result?.points}</p>
                 <div className=" w-full flex flex-row justify-center">
                     <button type="button" disabled={!isAllQuestionsAnswered} className="disabled:opacity-25 float-right bg-green-300 border-green-700 border rounded-2xl p-2 "><Link href={'/'}>Reiniciar</Link></button>
                 </div>
